@@ -9,20 +9,23 @@ dotenv.config();
 connectDB();
 
 const authRoutes = require("./routes/authRoutes");
+const customerRoutes = require("./routes/customerRoutes");
 
 const app = express();
 
-app.use(cors({
-  origin: 'http://localhost:3000', 
-  credentials: true,  
-}));
-
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/customers", customerRoutes);
 
 const PORT = process.env.PORT || 5000;
 
