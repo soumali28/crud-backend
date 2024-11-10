@@ -69,13 +69,15 @@ exports.loginUser = async (req, res) => {
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: true,
-        maxAge: 15 * 60 * 1000, // 15 minutes
+        maxAge: 3 * 24 * 60 * 60 * 1000,
+        //maxAge: 1 * 60 * 1000,
       });
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
+        //maxAge: 2 * 60 * 1000,
       });
 
       res.json({
@@ -106,7 +108,7 @@ exports.refreshToken = (req, res) => {
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: true,
-      maxAge: 15 * 60 * 1000, // 15 minutes
+      maxAge: 3 * 24 * 60 * 60 * 1000, 
     });
 
     res.json({ message: "Access token refreshed" });
