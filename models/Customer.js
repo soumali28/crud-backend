@@ -5,7 +5,6 @@ const customerSchema = mongoose.Schema(
     setupBoxNo: {
       type: String,
       required: true,
-      unique: true,
     },
     firstName: {
       type: String,

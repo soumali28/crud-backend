@@ -24,7 +24,9 @@ exports.addCustomer = async (req, res) => {
   } = req.body;
 
   try {
-    // Check if customer with the same setupBoxNo exists
+    if (!setupBoxNo) {
+      return res.status(400).json({ message: "SetupBoxNo is required." });
+    }
     const existingCustomer = await Customer.findOne({ setupBoxNo });
     if (existingCustomer) {
       return res.status(400).json({ message: "Customer with this Setupbox No already exists." });
