@@ -24,6 +24,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
+app.use('/', (req,res)=>{
+  res.status(200).send('Home Page');
+})
 app.use("/api/auth", authRoutes);
 app.use("/api/customers", customerRoutes);
 
