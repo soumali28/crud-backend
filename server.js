@@ -10,6 +10,8 @@ connectDB();
 
 const authRoutes = require("./routes/authRoutes");
 const customerRoutes = require("./routes/customerRoutes");
+const zoneRoutes = require("./routes/zoneRoutes");
+const planRoutes = require("./routes/planRoutes");
 
 const app = express();
 
@@ -29,6 +31,8 @@ app.use('/', (req,res)=>{
 })
 app.use("/api/auth", authRoutes);
 app.use("/api/customers", customerRoutes);
+app.use("/api/zones", zoneRoutes);
+app.use("/api/plans", planRoutes);
 
 const PORT = process.env.PORT || 5000;
 
