@@ -42,8 +42,7 @@ const customerSchema = mongoose.Schema(
       required: true,
     },
     zone: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Zone', 
+      type: String,
       required: true,
     },
     servicePlan: {
