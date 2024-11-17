@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get("/all", getAllZones);
 router.post("/add", addZone);
-router.post("/delete/:id", deleteZone);
+router.delete("/delete/:id", deleteZone);
 router.post("/update/:id", updateZone);
 
 module.exports = router;

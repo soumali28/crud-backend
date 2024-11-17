@@ -6,12 +6,11 @@ const zoneSchema = new mongoose.Schema({
     },
     zonalNumber:{
         type: Number,
-        required:true,
-        unique:true,
+        required:false,
     },
     zonalLandmark:{
         type:String,
-        required:true,
+        required:false,
     }
 });
 

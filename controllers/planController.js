@@ -1,7 +1,7 @@
 const express = require('express');
-const Zone = require('../models/Plan');
+const Plan = require('../models/Plan');
 
-// Add zone
+// Add plan
 exports.addPlan = async (req, res) => {
     try {
         const { name, planNumber, price } = req.body;
@@ -13,7 +13,7 @@ exports.addPlan = async (req, res) => {
     }
 };
 
-// Update zone
+// Update plan
 
 exports.updatePlan = async (req, res) => {
     try {
@@ -29,7 +29,7 @@ exports.updatePlan = async (req, res) => {
     }
 };
 
-// Delete zone
+// Delete plan
 
 exports.deletePlan = async (req, res) => {
     try {
@@ -41,5 +41,15 @@ exports.deletePlan = async (req, res) => {
         res.status(200).json({ message: 'Plan deleted successfully' });
     } catch (error) {
         res.status(400).json({ message: 'Error deleting plan', error: error.message });
+    }
+};
+
+// Get all plans
+exports.getAllPlans = async (req, res) => {
+    try {
+        const plans = await Plan.find();
+        res.status(200).json(plans);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
 };

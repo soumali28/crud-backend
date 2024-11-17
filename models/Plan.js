@@ -7,8 +7,7 @@ const planSchema = new mongoose.Schema({
     },
     planNumber: {
         type: Number,
-        required: true,
-        unique: true,
+        required: false,
     },
     price: {
         type: Number,
