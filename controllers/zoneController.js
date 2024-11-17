@@ -7,7 +7,7 @@ exports.addZone = async (req, res) => {
         const { name, zonalNumber, zonalLandmark } = req.body;
         const newZone = new Zone({ name, zonalNumber, zonalLandmark });
         await newZone.save();
-        res.status(201).json({ message: 'Zone added successfully', zone: newZone });
+        res.status(200).json({ message: 'Zone added successfully', zone: newZone });
     } catch (err) {
         res.status(400).json({ message: "Error adding zone", error: err.message });
     }
@@ -44,3 +44,13 @@ exports.deleteZone = async (req, res) => {
         res.status(400).json({ message: "Error deleting zone", error: err.message });
     }
 };
+
+// Get all zones
+exports.getAllZones = async (req, res) => {
+    try {
+        const zones = await Zone.find();
+        res.status(200).json(zones);
+    } catch (err) {
+        res.status(500).json({ message: "Server error", error: err.message });
+    }
+}
