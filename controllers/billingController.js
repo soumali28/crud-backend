@@ -26,11 +26,22 @@ exports.addBilling = async (req, res) => {
 
 // Get all billings within a date range
 exports.getBillingsByDateRange = async (req, res) => {
-  const { startDate, endDate } = req.query;
+  let { startDate, endDate } = req.query;
 
   try {
+    // If startDate and endDate are not provided, set them to the 1st and last date of the current month
     if (!startDate || !endDate) {
-      return res.status(400).json({ message: "Start date and end date are required." });
+      const today = new Date();
+      const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);  // 1st day of the current month
+      const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0); // Last day of the current month
+
+      startDate = firstDay.toISOString();
+      endDate = lastDay.toISOString();
+    }
+
+    // Ensure the date values are valid
+    if (isNaN(new Date(startDate)) || isNaN(new Date(endDate))) {
+      return res.status(400).json({ message: "Invalid date format." });
     }
 
     const billings = await Billing.find({
