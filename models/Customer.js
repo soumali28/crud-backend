@@ -61,6 +61,12 @@ const customerSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    billings: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Billing",
+      },
+    ],
     deposit: {
       type: String, // can be "cash" or "online"
     },
