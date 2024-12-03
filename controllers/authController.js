@@ -43,6 +43,7 @@ exports.registerUser = async (req, res) => {
     res.status(201).json({
       _id: user._id,
       email: user.email,
+      role: user.role,
     });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
@@ -83,6 +84,7 @@ exports.loginUser = async (req, res) => {
       res.json({
         _id: user._id,
         email: user.email,
+        role: user.role,
       });
     } else {
       res.status(401).json({ message: "Invalid email or password" });

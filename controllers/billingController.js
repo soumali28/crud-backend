@@ -56,3 +56,16 @@ exports.getBillingsByDateRange = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+// delete billing 
+exports.deleteBilling = async (req, res) => {
+  try {
+    const billing = await Billing.findByIdAndDelete(req.params.id);
+    if (!billing) {
+      return res.status(404).json({ message: "Billing not found" });
+    }
+    res.status(200).json({ message: "Billing deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+}
