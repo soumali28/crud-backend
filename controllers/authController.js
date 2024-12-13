@@ -97,9 +97,9 @@ exports.loginUser = async (req, res) => {
 // Refresh access token
 exports.refreshToken = (req, res) => {
   const refreshToken = req.cookies.refreshToken;
-  console.log(refreshToken,'refreshToken')
+
   if (!refreshToken) {
-    return res.status(403).json({ message: "Refresh token not found", refreshToken:refreshToken });
+    return res.status(403).json({ message: "Refresh token not found" });
   }
 
   try {
@@ -122,9 +122,9 @@ exports.refreshToken = (req, res) => {
 // Token validation
 exports.validateToken = (req, res) => {
   const accessToken = req.cookies.accessToken;
-  console.log(accessToken,'access token')
+
   if (!accessToken) {
-    return res.status(401).json({ message: "Not authenticated", accessToken:accessToken });
+    return res.status(401).json({ message: "Not authenticated" });
   }
 
   try {
