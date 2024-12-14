@@ -122,7 +122,7 @@ exports.refreshToken = (req, res) => {
 // Token validation
 exports.validateToken = (req, res) => {
   const accessToken = req.cookies.accessToken;
-
+  console.log(req,'validate token req')
   if (!accessToken) {
     return res.status(401).json({ message: "Not authenticated" });
   }
