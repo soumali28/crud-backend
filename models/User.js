@@ -14,8 +14,14 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ["user", "admin"],
-    default: "admin",
+    default: "user",
   },
+  teams: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Team", // Reference to the Team model
+    },
+  ],
 }, { timestamps: true });
 
 // Hash password before saving user

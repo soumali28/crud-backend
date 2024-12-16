@@ -13,6 +13,7 @@ const customerRoutes = require("./routes/customerRoutes");
 const zoneRoutes = require("./routes/zoneRoutes");
 const planRoutes = require("./routes/planRoutes");
 const billingRoutes = require("./routes/billingRoutes");
+const teamRoutes = require("./routes/teamRoutes");
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use("/api/customers", customerRoutes);
 app.use("/api/zones", zoneRoutes);
 app.use("/api/plans", planRoutes);
 app.use("/api/billings", billingRoutes); 
+app.use("/api/teams", teamRoutes); 
 
 app.use("/", (req, res) => {
   res.status(200).send("Home Page");
