@@ -75,7 +75,7 @@ exports.addCustomer = async (req, res) => {
 // Get all customers
 exports.getAllCustomers = async (req, res) => {
   try {
-    const customers = await Customer.find();
+    const customers = await Customer.find().populate("zone", "name zonalLandmark zonalNumber");
     res.status(200).json(customers);
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
@@ -85,7 +85,10 @@ exports.getAllCustomers = async (req, res) => {
 // Get customer by ID
 exports.getCustomerById = async (req, res) => {
   try {
-    const customer = await Customer.findById(req.params.id);
+    const customer = await Customer.findById(req.params.id).populate(
+      "zone",
+      "name zonalLandmark zonalNumber"
+    );
 
     if (!customer) {
       return res.status(404).json({ message: "Customer not found" });
@@ -96,6 +99,7 @@ exports.getCustomerById = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
 
 //Update Customer by ID
 exports.updateCustomer = async (req, res) => {
