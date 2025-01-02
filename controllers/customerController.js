@@ -13,7 +13,7 @@ exports.addCustomer = async (req, res) => {
     landmark,
     city,
     pincode,
-    zone,
+    zone, 
     servicePlan,
     amt,
     remarks,
@@ -24,14 +24,25 @@ exports.addCustomer = async (req, res) => {
   } = req.body;
 
   try {
+    // Validate setupBoxNo
     if (!setupBoxNo) {
       return res.status(400).json({ message: "SetupBoxNo is required." });
     }
+
+    // Check if customer already exists
     const existingCustomer = await Customer.findOne({ setupBoxNo });
     if (existingCustomer) {
       return res
         .status(400)
-        .json({ message: "Customer with this Setupbox No already exists." });
+        .json({ message: "Customer with this SetupBoxNo already exists." });
+    }
+
+    // Validate Zone ID
+    const existingZone = await Zone.findById(zone);
+    if (!existingZone) {
+      return res
+        .status(400)
+        .json({ message: "Invalid Zone ID. Zone does not exist." });
     }
 
     // Create new customer
@@ -46,13 +57,13 @@ exports.addCustomer = async (req, res) => {
       landmark,
       city,
       pincode,
-      zone,
+      zone, // Reference to the Zone schema
       servicePlan,
       amt,
       remarks,
       credit,
       deposit,
-      takenBy: deposit === "cash" ? takenBy : undefined, // takenBy is only required if deposit is cash
+      takenBy: deposit === "cash" ? takenBy : undefined, // Only required if deposit is cash
       isActive,
     });
 
@@ -61,7 +72,6 @@ exports.addCustomer = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
-
 // Get all customers
 exports.getAllCustomers = async (req, res) => {
   try {
