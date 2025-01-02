@@ -138,9 +138,12 @@ exports.filterCustomers = async (req, res) => {
     const { setupBoxNo, name, status, zone, mobileNo } = req.body;
     const query = {};
 
+    // Filter by setupBoxNo
     if (setupBoxNo) {
       query.setupBoxNo = new RegExp(setupBoxNo, "i");
     }
+
+    // Filter by name (split into firstName and lastName)
     if (name) {
       const nameParts = name.split(" ");
       if (nameParts.length === 1) {
@@ -153,19 +156,29 @@ exports.filterCustomers = async (req, res) => {
         query.lastName = new RegExp(nameParts.slice(1).join(" "), "i");
       }
     }
+
+    // Filter by status
     if (status) {
-      query.status = status;
+      query.isActive = status === "active"; // Assuming 'active' or 'inactive' status
     }
+
+    // Filter by zone (zone ID)
     if (zone) {
-      query.zone = Zone.findById(zone);
+      query.zone = zone; // Match the zone ObjectId directly
     }
+
+    // Filter by mobileNo
     if (mobileNo) {
       query.mobileNo = new RegExp(mobileNo, "i");
     }
-    const customers = await Customer.find(query);
+
+    // Fetch customers with populated zone details
+    const customers = await Customer.find(query).populate("zone", "name zonalLandmark zonalNumber");
+
     res.status(200).json(customers);
   } catch (error) {
     console.error("Error filtering customers:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
