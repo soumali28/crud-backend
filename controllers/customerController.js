@@ -157,7 +157,7 @@ exports.filterCustomers = async (req, res) => {
       query.status = status;
     }
     if (zone) {
-      query.zone = zone;
+      query.zone = Zone.findById(zone);
     }
     if (mobileNo) {
       query.mobileNo = new RegExp(mobileNo, "i");
