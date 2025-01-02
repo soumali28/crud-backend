@@ -1,4 +1,5 @@
 const Customer = require("../models/Customer");
+const Zone = require("../models/Zone");
 
 // Add a new customer
 exports.addCustomer = async (req, res) => {
