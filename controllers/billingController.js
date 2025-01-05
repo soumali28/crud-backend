@@ -1,16 +1,25 @@
 const Billing = require("../models/Billings");
+const Customer = require("../models/Customer");
 
 // Add a new billing entry
 exports.addBilling = async (req, res) => {
-  const { customerName, setupBoxNumber, date, amt, deposit, takenBy } = req.body;
+  const { customerId, setupBoxNumber, date, amt, deposit, takenBy } = req.body;
 
   try {
-    if (!customerName || !setupBoxNumber || !date || !amt || !deposit || !takenBy) {
+    // Validate required fields
+    if (!customerId || !setupBoxNumber || !date || !amt || !deposit || !takenBy) {
       return res.status(400).json({ message: "All required fields must be filled." });
     }
 
+    // Validate that the customer exists
+    const customer = await Customer.findById(customerId);
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found." });
+    }
+
+    // Create the billing record
     const billing = await Billing.create({
-      customerName,
+      customer: customerId, // Reference to Customer ObjectId
       setupBoxNumber,
       date,
       amt,
@@ -20,9 +29,11 @@ exports.addBilling = async (req, res) => {
 
     res.status(201).json(billing);
   } catch (err) {
+    console.error("Error adding billing:", err);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
 
 // Get all billings within a date range
 exports.getBillingsByDateRange = async (req, res) => {

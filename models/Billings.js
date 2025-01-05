@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 
 const billingSchema = new mongoose.Schema({
-  customerName: { type: String, required: true },
+  customer: { type: mongoose.Schema.Types.ObjectId, ref: "Customer", required: true },
   setupBoxNumber: { type: String, required: true },
   date: { type: Date, required: true },
   amt: { type: Number, required: true },
