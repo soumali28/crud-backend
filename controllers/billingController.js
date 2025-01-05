@@ -26,13 +26,13 @@ exports.addBilling = async (req, res) => {
 
 // Get all billings within a date range
 exports.getBillingsByDateRange = async (req, res) => {
-  let { startDate, endDate } = req.query;
+  let { startDate, endDate, customerName, setupBoxId } = req.query;
 
   try {
     // If startDate and endDate are not provided, set them to the 1st and last date of the current month
     if (!startDate || !endDate) {
       const today = new Date();
-      const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);  // 1st day of the current month
+      const firstDay = new Date(today.getFullYear(), today.getMonth(), 1); // 1st day of the current month
       const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0); // Last day of the current month
 
       startDate = firstDay.toISOString();
@@ -44,18 +44,43 @@ exports.getBillingsByDateRange = async (req, res) => {
       return res.status(400).json({ message: "Invalid date format." });
     }
 
-    const billings = await Billing.find({
+    // Build the query object
+    const query = {
       date: {
         $gte: new Date(startDate),
         $lte: new Date(endDate),
       },
-    });
+    };
+
+    // Add customer name filter if provided
+    if (customerName) {
+      const nameParts = customerName.split(" ");
+      if (nameParts.length === 1) {
+        query.$or = [
+          { "customer.firstName": new RegExp(nameParts[0], "i") },
+          { "customer.lastName": new RegExp(nameParts[0], "i") },
+        ];
+      } else {
+        query["customer.firstName"] = new RegExp(nameParts[0], "i");
+        query["customer.lastName"] = new RegExp(nameParts.slice(1).join(" "), "i");
+      }
+    }
+
+    // Add setup box ID filter if provided
+    if (setupBoxId) {
+      query.setupBoxId = new RegExp(setupBoxId, "i");
+    }
+
+    // Find billings with the built query
+    const billings = await Billing.find(query).populate("customer");
 
     res.status(200).json(billings);
   } catch (err) {
+    console.error("Error fetching billings:", err);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
 
 // delete billing 
 exports.deleteBilling = async (req, res) => {
