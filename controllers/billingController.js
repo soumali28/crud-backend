@@ -26,8 +26,8 @@ exports.addBilling = async (req, res) => {
       deposit,
       takenBy,
     });
-
-    res.status(201).json(billing);
+    const populatedBilling = await Billing.findById(billing._id).populate("customer");
+    res.status(201).json(populatedBilling);
   } catch (err) {
     console.error("Error adding billing:", err);
     res.status(500).json({ message: "Server error", error: err.message });
