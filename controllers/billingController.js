@@ -19,7 +19,7 @@ exports.addBilling = async (req, res) => {
 
     // Create the billing record
     const billing = await Billing.create({
-      customer: customerId, // Reference to Customer ObjectId
+      customer: customerId, 
       setupBoxNumber,
       date,
       amt,
@@ -37,7 +37,7 @@ exports.addBilling = async (req, res) => {
 
 // Get all billings within a date range
 exports.getBillingsByDateRange = async (req, res) => {
-  let { startDate, endDate, customerName, setupBoxId } = req.query;
+  let { startDate, endDate, customerId, setupBoxId } = req.query;
 
   try {
     // If startDate and endDate are not provided, set them to the 1st and last date of the current month
@@ -63,18 +63,8 @@ exports.getBillingsByDateRange = async (req, res) => {
       },
     };
 
-    // Add customer name filter if provided
-    if (customerName) {
-      const nameParts = customerName.split(" ");
-      if (nameParts.length === 1) {
-        query.$or = [
-          { "customer.firstName": new RegExp(nameParts[0], "i") },
-          { "customer.lastName": new RegExp(nameParts[0], "i") },
-        ];
-      } else {
-        query["customer.firstName"] = new RegExp(nameParts[0], "i");
-        query["customer.lastName"] = new RegExp(nameParts.slice(1).join(" "), "i");
-      }
+    if (customerId) {
+      query.customer = customerId;
     }
 
     // Add setup box ID filter if provided
