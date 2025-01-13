@@ -6,6 +6,9 @@ const customerSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    oldSetupBoxId:{
+      type: String
+    },
     firstName: {
       type: String,
       required: true,

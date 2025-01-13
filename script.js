@@ -41,6 +41,7 @@
 
 const mongoose = require("mongoose");
 const Customer = require("./models/Customer"); // Adjust path as needed
+const Zone = require("./models/Zone");
 
 // MongoDB connection URI
 const mongoURI = "mongodb+srv://debbaner1:Debdeep1@cluster0.d9bhb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Replace with your MongoDB connection string
@@ -78,3 +79,15 @@ const mongoURI = "mongodb+srv://debbaner1:Debdeep1@cluster0.d9bhb.mongodb.net/?r
     console.log("Disconnected from MongoDB");
   }
 })();
+
+
+
+// staging and prod db - json
+
+// zone wise - zone will be an id and landmark will be subid of zone id
+// multiple landmarks under 1 zone
+// wherever u find Zone, add landmark
+// landmark schema - zonal number and other info
+
+// billing - zone id filter
+// customers - find customers by zone - already done - landmark wise
