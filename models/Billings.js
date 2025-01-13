@@ -8,6 +8,7 @@ const billingSchema = new mongoose.Schema({
   amt: { type: Number, required: true },
   deposit: { type: String, enum: ["CASH", "ONLINE"], required: true },
   takenBy: { type: String, required: true },
+  note:{type: String},
 });
 
 module.exports = mongoose.model("Billing", billingSchema);

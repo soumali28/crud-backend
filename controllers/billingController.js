@@ -3,7 +3,7 @@ const Customer = require("../models/Customer");
 
 // Add a new billing entry
 exports.addBilling = async (req, res) => {
-  const { customerId, setupBoxNumber, date, amt, deposit, takenBy } = req.body;
+  const { customerId, setupBoxNumber, date, amt, deposit, takenBy, note } = req.body;
 
   try {
     // Validate required fields
@@ -25,6 +25,7 @@ exports.addBilling = async (req, res) => {
       amt,
       deposit,
       takenBy,
+      note,
     });
     const populatedBilling = await Billing.findById(billing._id).populate("customer");
     res.status(201).json(populatedBilling);

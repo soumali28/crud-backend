@@ -19,7 +19,7 @@ const customerSchema = mongoose.Schema(
       required: false,
     },
     mobileNo: {
-      type: String,
+      type: [String],
       required: true,
     },
     companyName: {
