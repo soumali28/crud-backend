@@ -36,9 +36,9 @@ app.use("/api/plans", planRoutes);
 app.use("/api/billings", billingRoutes); 
 app.use("/api/teams", teamRoutes); 
 
-app.use("/", (req, res) => {
-  res.status(200).send("Home Page");
-});
+// app.use("/", (req, res) => {
+//   res.status(200).send("Home Page");
+// });
 
 const PORT = process.env.PORT || 5000;
 

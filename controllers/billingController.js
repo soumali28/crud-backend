@@ -96,3 +96,16 @@ exports.deleteBilling = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 }
+
+exports.getBillingById = async (req, res) => {
+  try {
+    const billing = await Billing.findById(req.params.id).populate("customer");
+    if (!billing) {
+      return res.status(404).json({ message: "Billing not found" });
+    }
+    res.status(200).json(billing);
+  } catch (err) {
+    console.error("Error fetching billing:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
