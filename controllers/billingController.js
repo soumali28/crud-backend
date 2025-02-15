@@ -38,7 +38,7 @@ exports.addBilling = async (req, res) => {
 
 // Get all billings within a date range
 exports.getBillingsByDateRange = async (req, res) => {
-  let { startDate, endDate, customerId, setupBoxId } = req.query;
+  let { startDate, endDate, customerId, setupBoxId, zone } = req.query;
 
   try {
     // If startDate and endDate are not provided, set them to the 1st and last date of the current month
@@ -73,6 +73,11 @@ exports.getBillingsByDateRange = async (req, res) => {
       query.setupBoxId = new RegExp(setupBoxId, "i");
     }
 
+    // Add zone filter if provided
+    if (zone) {
+      query.zone = new RegExp(zone, "i"); // Case-insensitive match for zone name
+    }
+    
     // Find billings with the built query
     const billings = await Billing.find(query).populate("customer");
 
